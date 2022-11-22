@@ -6,19 +6,29 @@ import './AdminDashboard.css'
 function AdminDashboard() {
     const history = useHistory()
     const {firebase} = useContext(FirebaseContext)
-    const deleteUser =  (id)=>{
-    firebase.firestore().collection('users').doc(id).delete().then(()=>{
+
+
+    const deleteUser =  (docid,id)=>{
+      
+     
+     firebase.firestore().collection('users').doc(docid).delete().then(()=>{
+      firebase.auth().deleteUser(id).then(()=>{
         history.push('/adminDashboard')
-    })
+      }).catch((err)=>{
+        console.log(err)
+      })
+      
+     })
     }
 
-    const EditUser = ()=>{
-      history.push("/edit")
+
+
+    const EditUser = (id)=>{
+      history.push("/edit?docId="+id)
     }
     const[allusers,setAllusers] = useState([])
     useEffect(()=>{
         firebase.firestore().collection('users').get().then((snap)=>{
-            console.log(snap)
           const alluser = snap.docs.map((user)=>{
             return {
                 ...user.data(),
@@ -51,7 +61,7 @@ function AdminDashboard() {
 
                 allusers.map((user,index)=>{
 
-                  return  <tr>
+                  return  <tr key={index}>
                     <td>{index+1}</td>
                     <td>{user.name}</td>
                     <td>{user.Phone}</td>
@@ -59,9 +69,10 @@ function AdminDashboard() {
 
 
                     <td >
-                    <button className='btn-danger' onClick={()=>deleteUser(user.docId)}>Delete</button> 
+                    <button className='btn-danger' onClick={()=>deleteUser(user.docId,user.id)}>Delete</button> 
                     &nbsp;&nbsp;
-                    <button className='btn-primary' onClick={()=>EditUser()}>Edit</button> 
+                    <button className='btn-primary' onClick={()=>EditUser(user.docId)}>Edit</button> 
+                  
                     </td>
                     </tr>
 

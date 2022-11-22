@@ -9,8 +9,8 @@ function View() {
   const {firebase} = useContext(FirebaseContext)
   useEffect(()=>{
     const {userId} = postDetails
-    console.log(userId)
     firebase.firestore().collection('users').where("id","==",userId).get().then((response)=>{
+      console.log(response)
       response.forEach(element => {
         setUserDetails(element.data())
       });

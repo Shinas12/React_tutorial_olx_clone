@@ -39,7 +39,7 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-        {user ? user.displayName : <span onClick={()=>{
+        {user ? <span onClick={()=>{history.push('/profile')}}>{user.displayName}</span>  : <span onClick={()=>{
             history.push('/login')
           }}>Login</span> }
           <hr />

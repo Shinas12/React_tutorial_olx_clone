@@ -19,6 +19,7 @@ import View from './Pages/ViewPost'
 
 import AdminHome from './Pages/AdminHome';
 import AdminAdds from './Pages/AdminAdd'
+import UserProfile from './Components/userProfile/UserProfile';
 function App() {
   const history = useHistory()
   const {user,setUser} = useContext(AuthContext)
@@ -71,7 +72,11 @@ function App() {
       <Route path="/edit">
       <AdminAdds/>
       </Route>
+      
 
+      <Route path="/profile">
+      <UserProfile/>
+      </Route>
 
       </Router>
       </Post>
